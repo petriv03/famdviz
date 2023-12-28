@@ -111,8 +111,8 @@ set_custom_theme <- function(legend_position_x,
     y_text <- ggplot2::element_blank()
   }
 
-  theme_bw() +
-    theme(
+  ggplot2::theme_bw() +
+  ggplot2::theme(
       axis.text.x = x_text,
       axis.text.y = y_text,
       text = ggplot2::element_text(size = 8),
