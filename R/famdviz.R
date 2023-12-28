@@ -79,10 +79,10 @@ set_gradient <- function(midpoint) {
 #' Set Custom Theme
 #'
 #' Supporting function for ggplot generating customized theme
-#' @param legend_position_x numeric value between 0 and 1 indicating left-right position of legend
-#' @param legend_position_y numeric value between 0 and 1 indicating top-down position of legend
-#' @param axis_text_x boolean value indicating labels on horizontal axis tics
-#' @param axis_text_y boolean value indicating labels on vertical axis tics
+#' @param legend_position_x numeric between 0 and 1 indicating left-right position of legend
+#' @param legend_position_y numeric between 0 and 1 indicating top-down position of legend
+#' @param axis_text_x boolean indicating labels on horizontal axis tics
+#' @param axis_text_y boolean indicating labels on vertical axis tics
 #' @return ggplot2::theme()
 #' @examples
 #' data_frame <- data.frame(x = c(1, 2, 3),

@@ -12,13 +12,13 @@ set_custom_theme(
 )
 }
 \arguments{
-\item{legend_position_x}{numeric value between 0 and 1 indicating left-right position of legend}
+\item{legend_position_x}{numeric between 0 and 1 indicating left-right position of legend}
 
-\item{legend_position_y}{numeric value between 0 and 1 indicating top-down position of legend}
+\item{legend_position_y}{numeric between 0 and 1 indicating top-down position of legend}
 
-\item{axis_text_x}{boolean value indicating labels on horizontal axis tics}
+\item{axis_text_x}{boolean indicating labels on horizontal axis tics}
 
-\item{axis_text_y}{boolean value indicating labels on vertical axis tics}
+\item{axis_text_y}{boolean indicating labels on vertical axis tics}
 }
 \value{
 ggplot2::theme()
