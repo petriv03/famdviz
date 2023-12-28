@@ -56,9 +56,9 @@ get_variables <- function(famd, dim_x, dim_y, color_by) {
 
 #' Set Gradient
 #'
-#' Supporting function for ggplot generates 3-point scale_colour_gradient2
-#' @param midpoint the numeric value indicating mid color
-#' @return scale_colour_gradient2()
+#' Supporting function for ggplot generating 3-point scale_colour_gradient2
+#' @param midpoint numeric value indicating mid color
+#' @return ggplot2::scale_colour_gradient2()
 #' @examples
 #' data_frame <- data.frame(x = c(1, 2, 3),
 #'                          y = c(1, 2, 3),
@@ -76,7 +76,23 @@ set_gradient <- function(midpoint) {
 }
 
 
-
+#' Set Custom Theme
+#'
+#' Supporting function for ggplot generating customized theme
+#' @param legend_position_x numeric value between 0 and 1 indicating left-right position of legend
+#' @param legend_position_y numeric value between 0 and 1 indicating top-down position of legend
+#' @param axis_text_x boolean value indicating labels on horizontal axis tics
+#' @param axis_text_y boolean value indicating labels on vertical axis tics
+#' @return ggplot2::theme()
+#' @examples
+#' data_frame <- data.frame(x = c(1, 2, 3),
+#'                          y = c(1, 2, 3),
+#'                          z = c(12.8, 6.5, 15.4))
+#' mean_color <- mean(data_frame[, "z"])
+#' ggplot(data_frame, aes(x = x, y = y, color = z) +
+#'   geom_point(shape = 17) +
+#'   set_gradient(mean_color)
+#' @export
 set_custom_theme <- function(legend_position_x,
                              legend_position_y,
                              axis_text_x = T,

@@ -7,13 +7,13 @@
 set_gradient(midpoint)
 }
 \arguments{
-\item{midpoint}{the numeric value indicating mid color}
+\item{midpoint}{numeric value indicating mid color}
 }
 \value{
-scale_colour_gradient2()
+ggplot2::scale_colour_gradient2()
 }
 \description{
-Supporting function for ggplot generates 3-point scale_colour_gradient2
+Supporting function for ggplot generating 3-point scale_colour_gradient2
 }
 \examples{
 data_frame <- data.frame(x = c(1, 2, 3),
