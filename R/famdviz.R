@@ -9,10 +9,12 @@
 plot_variables <- function(famd, dim_x, dim_y, color_by) {
   variables <- get_variables(famd, dim_x, dim_y, color_by)
   mean_color <- mean(variables[, 3])
-  figure <- ggplot2::ggplot(variables, aes(x = data_frame[, 1],
-                                  y = data_frame[, 2],
-                                  color = data_frame[, 3],
-                                  label = rownames(variables))) +
+  figure <- ggplot2::ggplot(variables, ggplot2::aes(x = data_frame[, 1],
+                                                    y = data_frame[, 2],
+                                                    color = data_frame[, 3],
+                                                    label = rownames(variables)
+                                                    )
+                            ) +
     ggplot2::geom_hline(yintercept = 0, linetype = "dashed") +
     ggplot2::geom_vline(xintercept = 0, linetype = "dashed") +
     ggplot2::geom_point(shape = 17) +
@@ -26,7 +28,7 @@ plot_variables <- function(famd, dim_x, dim_y, color_by) {
     ggplot2::guides(color = guide_colourbar(title = toupper(color_by)))
   return(figure)
 }
-
+ggplot2::aes()
 #' Get Variables
 #'
 #' Get variables of factoMineR::FAMD model as an input for plot_variables function
