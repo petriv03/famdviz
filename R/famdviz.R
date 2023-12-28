@@ -28,7 +28,7 @@ plot_variables <- function(famd, dim_x, dim_y, color_by) {
     ggplot2::guides(color = guide_colourbar(title = toupper(color_by)))
   return(figure)
 }
-ggplot2::aes()
+
 #' Get Variables
 #'
 #' Get variables of factoMineR::FAMD model as an input for plot_variables function
