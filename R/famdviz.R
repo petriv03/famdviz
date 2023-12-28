@@ -9,21 +9,21 @@
 plot_variables <- function(famd, dim_x, dim_y, color_by) {
   variables <- get_variables(famd, dim_x, dim_y, color_by)
   mean_color <- mean(variables[, 3])
-  figure <- ggplot(variables, aes(x = data_frame[, 1],
+  figure <- ggplot2::ggplot(variables, aes(x = data_frame[, 1],
                                   y = data_frame[, 2],
                                   color = data_frame[, 3],
                                   label = rownames(variables))) +
-    geom_hline(yintercept = 0, linetype = "dashed") +
-    geom_vline(xintercept = 0, linetype = "dashed") +
-    geom_point(shape = 17) +
-    geom_text_repel(max.overlaps = Inf, size=3) +
-    labs(x = NULL, y = NULL) +
+    ggplot2::geom_hline(yintercept = 0, linetype = "dashed") +
+    ggplot2::geom_vline(xintercept = 0, linetype = "dashed") +
+    ggplot2::geom_point(shape = 17) +
+    ggrepel::geom_text_repel(max.overlaps = Inf, size=3) +
+    ggplot2::labs(x = NULL, y = NULL) +
     set_gradient(mean_color) +
     set_custom_theme(legend_position_x = 1,
                      legend_position_y = 1,
                      axis_text_x = T,
                      axis_text_y = T) +
-    guides(color = guide_colourbar(title = toupper(color_by)))
+    ggplot2::guides(color = guide_colourbar(title = toupper(color_by)))
   return(figure)
 }
 
@@ -69,12 +69,11 @@ get_variables <- function(famd, dim_x, dim_y, color_by) {
 #'   set_gradient(mean_color)
 #' @export
 set_gradient <- function(midpoint) {
-  scale_colour_gradient2(low="#00AFBB",
-                         mid="#E7B800",
-                         high="#FC4E07",
-                         midpoint = mean(midpoint))
+  ggplot2::scale_colour_gradient2(low="#00AFBB",
+                                  mid="#E7B800",
+                                  high="#FC4E07",
+                                  midpoint = mean(midpoint))
 }
-
 
 #' Set Custom Theme
 #'
@@ -98,18 +97,27 @@ set_custom_theme <- function(legend_position_x,
                              axis_text_x = T,
                              axis_text_y = T) {
 
-  if(axis_text_x){x_text <- element_text()} else {x_text <- element_blank()}
-  if(axis_text_y){y_text <- element_text()} else {y_text <- element_blank()}
+  if (axis_text_x) {
+    x_text <- ggplot2::element_text()
+  } else {
+    x_text <- ggplot2::element_blank()
+  }
+
+  if (axis_text_y) {
+    y_text <- ggplot2::element_text()
+  } else {
+    y_text <- ggplot2::element_blank()
+  }
 
   theme_bw() +
     theme(
       axis.text.x = x_text,
       axis.text.y = y_text,
-      text = element_text(size = 8),
-      legend.background = element_rect(fill = "transparent"),
-      legend.key=element_rect(fill = "transparent"),
+      text = ggplot2::element_text(size = 8),
+      legend.background = ggplot2::element_rect(fill = "transparent"),
+      legend.key = ggplot2::element_rect(fill = "transparent"),
       legend.justification = c(legend_position_x, legend_position_y),
       legend.position = c(legend_position_x, legend_position_y),
-      legend.title = element_text(face="bold")
+      legend.title = ggplot2::element_text(face = "bold")
     )
 }
