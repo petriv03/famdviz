@@ -41,12 +41,12 @@ plot_variables <- function(famd, dim_x, dim_y, color_by) {
 #' print(vars)
 #' @export
 get_variables <- function(famd, dim_x, dim_y, color_by) {
-  coordinates <- rbind(as.data.frame(model$quali.var[["coord"]]),
-                       as.data.frame(model$quanti.var[["coord"]])
+  coordinates <- rbind(as.data.frame(famd$quali.var[["coord"]]),
+                       as.data.frame(famd$quanti.var[["coord"]])
                        )
   coordinates <- coordinates[, c(dim_x, dim_y)]
-  colors <- rbind(as.data.frame(model$quali.var[[color_by]]),
-                  as.data.frame(model$quanti.var[[color_by]])
+  colors <- rbind(as.data.frame(famd$quali.var[[color_by]]),
+                  as.data.frame(famd$quanti.var[[color_by]])
                   )
   colors <- data.frame(colors[, 1] + colors[, 2])
   colnames(colors) <- c(color_by)
