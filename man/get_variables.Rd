@@ -23,5 +23,6 @@ Get variables of factoMineR::FAMD model as an input for plot_variables function
 }
 \examples{
 famd <- factoMineR::FAMD(x, graph = F)
-get_variables(famd, 1, 2, "cos2")
+vars <- get_variables(famd, 1, 2, "cos2")
+print(vars)
 }
