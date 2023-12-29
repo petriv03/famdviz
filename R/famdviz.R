@@ -18,7 +18,6 @@
 plot_variables <- function(famd, dim_x, dim_y, color_by, axis_text_x,
                            axis_text_y) {
   variables <- get_variables(famd, dim_x, dim_y, color_by)
-  mean_color <- mean(variables[, 3])
   figure <- ggplot2::ggplot(variables, ggplot2::aes(x = variables[, 1],
                                                     y = variables[, 2],
                                                     color = variables[, 3],
@@ -30,7 +29,7 @@ plot_variables <- function(famd, dim_x, dim_y, color_by, axis_text_x,
     ggplot2::geom_point(shape = 17) +
     ggrepel::geom_text_repel(max.overlaps = Inf, size = 3) +
     ggplot2::labs(x = NULL, y = NULL) +
-    set_gradient(mean_color) +
+    set_gradient(mean(variables[, 3])) +
     set_custom_theme(legend_position_x = 1,
                      legend_position_y = 1,
                      axis_text_x = axis_text_x,
@@ -76,7 +75,7 @@ get_variables <- function(famd, dim_x, dim_y, color_by) {
 #' @param size_by column of original dataframe which a size comes from
 #' @param axis_text_x boolean indicating labels on horizontal axis tics
 #' @param axis_text_y boolean indicating labels on vertical axis tics
-#' @param ellipse boolean indicating t-distribution ellipse
+#' @param ellipse column name indicating t-distribution ellipse
 #' @return scatter ggplot of variables colored by cos2 or contribution
 #' @examples
 #' library(factoMineR)
@@ -85,34 +84,53 @@ get_variables <- function(famd, dim_x, dim_y, color_by) {
 #' p <- plot_variables(famd, 1, 2, "age", "income", FALSE, TRUE)
 #' print(p)
 #' @export
-plot_individuals <- function(famd, dim_x, dim_y,
-                             shape_by = NULL,
-                             color_by = NULL,
-                             size_by = NULL,
-                             axis_text_x = TRUE,
-                             axis_text_y = TRUE,
-                             ellipse = FALSE) {
-  individuals <- get_individuals(famd, dim_x, dim_y, color_by, size_by)
-  if ()
-  aes
+plot_individuals <- function(famd, dim_x, dim_y, color_by = NULL,
+                             size_by = NULL, shape_by = NULL,
+                             axis_text_x = TRUE, axis_text_y = TRUE,
+                             ellipse = NULL) {
+
+  individuals <- get_individuals(famd, dim_x, dim_y, color_by, size_by,
+                                 shape_by)
+
+  if (is.null(color_by)) {color = "black"} else {color = variables[, 3]}
+  if (is.null(size_by)) {size = 2} else {size = variables[, 4]}
+  if (is.null(shape_by)) {shape = 21} else {shape = variables[, 5]}
 
   figure <- ggplot2::ggplot(individuals, ggplot2::aes(x = individuals[, 1],
-                                                    y = individuals[, 2],
-                                                    color = variables[, 3],
-                                                    label = rownames(variables)
-  )
-  ) +
+                                                      y = individuals[, 2],
+                                                      color = color,
+                                                      size = size,
+                                                      shape = shape)) +
     ggplot2::geom_hline(yintercept = 0, linetype = "dashed") +
     ggplot2::geom_vline(xintercept = 0, linetype = "dashed") +
-    ggplot2::geom_point(shape = 17) +
-    ggrepel::geom_text_repel(max.overlaps = Inf, size = 3) +
+    ggplot2::geom_point(alpha = 0.5)
     ggplot2::labs(x = NULL, y = NULL) +
-    set_gradient(mean_color) +
     set_custom_theme(legend_position_x = 1,
                      legend_position_y = 1,
                      axis_text_x = axis_text_x,
-                     axis_text_y = axis_text_y) +
-    ggplot2::guides(color = ggplot2::guide_colourbar(title = toupper(color_by)))
+                     axis_text_y = axis_text_y)
+
+  if (!is.null(color_by)) {
+    figure <- figure + set_gradient(mean(variables[, 3]))
+    figure <- figure + ggplot2::guides(
+      color = ggplot2::guide_colourbar(title = toupper(color_by)))
+  }
+
+  if (!is.null(size_by)) {
+    figure <- figure + ggplot2::guides(
+      size = ggplot2::guide_colourbar(title = toupper(size_by)))
+  }
+
+  if (!is.null(shape_by)) {
+    figure <- figure + ggplot2::guides(
+      shape = ggplot2::guide_colourbar(title = toupper(shape_by)))
+  }
+
+  if (!is.null(ellipse)) {
+    figure <- figure + ggplot2::stat_ellipse(
+        type="t", alpha=0.2, geom="polygon", aes(fill=ellipse))
+  }
+
   return(figure)
 }
 
@@ -130,11 +148,12 @@ plot_individuals <- function(famd, dim_x, dim_y,
 #' inds <- get_individuals(famd, 1, 2, "cos2", "age", "income")
 #' print(inds)
 #' @export
-get_individuals <- function(famd, dim_x, dim_y, color_by, size_by) {
+get_individuals <- function(famd, dim_x, dim_y, color_by, size_by, shape_by) {
   coordinates <- famd$ind$coord[, c(dim_x, dim_y)]
   colors <- famd$call$X[, color_by]
   sizes <- famd$call$X[, size_by]
-  individuals <- cbind(coordinates, colors, sizes)
+  shapes <- famd$call$X[, shape_by]
+  individuals <- cbind(coordinates, colors, sizes, shapes)
   return(individuals)
 }
 
