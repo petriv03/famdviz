@@ -92,18 +92,15 @@ plot_individuals <- function(famd, dim_x, dim_y, color_by = NULL,
   individuals <- get_individuals(famd, dim_x, dim_y, color_by, size_by,
                                  shape_by)
 
-  if (is.null(color_by)) {color = "black"} else {color = variables[, 3]}
-  if (is.null(size_by)) {size = 2} else {size = variables[, 4]}
-  if (is.null(shape_by)) {shape = 21} else {shape = variables[, 5]}
+  if (is.null(color_by)) {color = "black"} else {color = individuals[, 3]}
+  if (is.null(size_by)) {size = 2} else {size = individuals[, 4]}
+  if (is.null(shape_by)) {shape = 19} else {shape = individuals[, 5]}
 
   figure <- ggplot2::ggplot(individuals, ggplot2::aes(x = individuals[, 1],
-                                                      y = individuals[, 2],
-                                                      color = color,
-                                                      size = size,
-                                                      shape = shape)) +
+                                                      y = individuals[, 2])) +
     ggplot2::geom_hline(yintercept = 0, linetype = "dashed") +
     ggplot2::geom_vline(xintercept = 0, linetype = "dashed") +
-    ggplot2::geom_point(alpha = 0.5)
+    ggplot2::geom_point(shape=shape, color=color, size=size, alpha=0.5)+
     ggplot2::labs(x = NULL, y = NULL) +
     set_custom_theme(legend_position_x = 1,
                      legend_position_y = 1,
@@ -111,7 +108,7 @@ plot_individuals <- function(famd, dim_x, dim_y, color_by = NULL,
                      axis_text_y = axis_text_y)
 
   if (!is.null(color_by)) {
-    figure <- figure + set_gradient(mean(variables[, 3]))
+    figure <- figure + set_gradient(mean(individuals[, 3]))
     figure <- figure + ggplot2::guides(
       color = ggplot2::guide_colourbar(title = toupper(color_by)))
   }
@@ -149,15 +146,17 @@ plot_individuals <- function(famd, dim_x, dim_y, color_by = NULL,
 #' print(inds)
 #' @export
 get_individuals <- function(famd, dim_x, dim_y, color_by, size_by, shape_by) {
+  nullcol <- data.frame("NA" = rep(NA, nrows(famd$ind$coord)))
   coordinates <- famd$ind$coord[, c(dim_x, dim_y)]
   colors <- famd$call$X[, color_by]
+  colnames(colors) <- c(color_by)
   sizes <- famd$call$X[, size_by]
+  colnames(sizes) <- c(size_by)
   shapes <- famd$call$X[, shape_by]
+  colnames(shapes) <- c(shape_by)
   individuals <- cbind(coordinates, colors, sizes, shapes)
   return(individuals)
 }
-
-
 
 #' Set Gradient
 #'
